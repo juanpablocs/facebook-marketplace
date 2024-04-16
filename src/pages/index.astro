@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ListCards } from '../components/ListCards/ListCards';
+import { SelectLocation } from '../components/SelectLocation/SelectLocation';
+
+---
+
+<Layout title="Facebook Marketplace">
+	<main>
+		<h1>Facebook Marketplace</h1>
+    <SelectLocation client:load />
+		<ListCards client:load />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+	}
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+	
+</style>

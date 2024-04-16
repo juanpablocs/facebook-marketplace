@@ -1,0 +1,10 @@
+.select {
+  display: flex;
+  gap: 10px;
+}
+.select select {
+  padding: 5px 10px;
+  border: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
