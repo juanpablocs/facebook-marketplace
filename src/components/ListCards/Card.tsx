@@ -12,8 +12,10 @@ export const Card:FC<CardProps> = ({title, price, href, image}) => {
   return (
     <div className={style.card}>
       <img src={image} alt={title} />
-      <h5>{title}</h5>
-      <p>{price}</p>
+      <div className={style.cardInfo}>
+        <h5>{title}</h5>
+        <p>{price}</p>
+      </div>
     </div>
   )
 }

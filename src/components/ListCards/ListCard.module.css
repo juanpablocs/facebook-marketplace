@@ -4,3 +4,23 @@
   padding: 1rem 0;
   display: grid;
 }
+.listCards a {
+  color: white;
+  text-decoration: none;
+}
+.btnNext {
+  padding: 8px 15px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #333;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 50px;
+}
+.btnNext[disabled] {
+  opacity: .6;
+  cursor: not-allowed;
+}

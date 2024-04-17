@@ -7,22 +7,29 @@ export const SelectLocation = () => {
   const [countries, setCountries] = useState<any[]>([]);
   const [currentCountry, setCurrentCountry] = useState<any>(null);
   const [currentState, setCurrentState] = useState<any>(null);
+  const [isFetching, setIsFetching] = useState(true);
   const COUNTRY_DEFAULT = 'PER';
   const STATE_DEFAULT = 'LIM';
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/countries-states.json', {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      if(!data) return;
-      setCountries(data);
-      setCurrentCountry(data.find((country:any) => country.iso3 === COUNTRY_DEFAULT));
-      setCurrentState(data.find((country:any) => country.iso3 === COUNTRY_DEFAULT).states.find((state:any) => state.state_code === STATE_DEFAULT));
+      try {
+        const response = await fetch('/api/countries-states.json', {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        if(!data) return;
+        setCountries(data);
+        setCurrentCountry(data.find((country:any) => country.iso3 === COUNTRY_DEFAULT));
+        setCurrentState(data.find((country:any) => country.iso3 === COUNTRY_DEFAULT).states.find((state:any) => state.state_code === STATE_DEFAULT));
+      }catch(error:any) {
+        console.log('ERROR:', error.message)
+      } finally {
+        setIsFetching(false);
+      }
     }
     fetchData();
   }, [])
@@ -44,6 +51,9 @@ export const SelectLocation = () => {
   }, [currentState?.id]);
 
   console.log({currentCountry, currentState});
+  
+  if(isFetching) return null;
+
   return (
     <div className={styles.select}>
       <select value={currentCountry?.iso3} onChange={handlerCountry}>
