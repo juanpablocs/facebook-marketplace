@@ -8,7 +8,7 @@ interface CardProps {
   image: string;
 }
 
-export const Card:FC<CardProps> = ({title, price, href, image}) => {
+export const Card:FC<CardProps> = ({title, price, image}) => {
   return (
     <div className={style.card}>
       <img src={image} alt={title} />
