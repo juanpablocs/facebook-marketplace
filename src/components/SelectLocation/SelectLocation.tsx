@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './SelectLocation.module.css';
+import { currentSearch } from '../../store';
+import slugify from '@sindresorhus/slugify';
 
 export const SelectLocation = () => {
   const [countries, setCountries] = useState<any[]>([]);
@@ -29,6 +31,17 @@ export const SelectLocation = () => {
     setCurrentCountry(countries.find(country => country.iso3 === e.target.value));
     setCurrentState(countries.find(country => country.iso3 === e.target.value).states[0]);
   }
+
+  useEffect(() => {
+    if(currentState?.id) {
+      currentSearch.set({
+        latitude: currentState.latitude,
+        longitude: currentState.longitude,
+        radiusKM: 65,
+        city: slugify(currentState.name),
+      });
+    }
+  }, [currentState?.id]);
 
   console.log({currentCountry, currentState});
   return (

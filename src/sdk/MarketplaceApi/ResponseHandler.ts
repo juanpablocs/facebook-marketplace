@@ -17,7 +17,7 @@ class ResponseHandler {
       image: edge.node?.listing?.primary_listing_photo?.image?.uri,
       url: `${constants.urlMarketplace}/item/${edge.node?.listing?.id}`,
       location: edge.node?.listing?.location,
-    }));
+    })).filter((item:any) => !!item.id);
     return { isNextPage, encodeNextPage, items };
   }
 }

@@ -41,7 +41,7 @@ class MarketplaceApi {
           "referral_code": null,
           "saved_search_strid": null,
           "search_vertical": null,
-          "seo_url": "acura",
+          "seo_url": searchSlug,
           "surface": "TOPIC_PAGE",
           "virtual_contextual_filters": []
         }
@@ -77,6 +77,7 @@ class MarketplaceApi {
       radiusKm: this.radiusKm
     });
     const data = await this.fetchData(query);
+    console.log(query)
     return ResponseHandler.processItems(data);
   }
 

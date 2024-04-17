@@ -1,38 +1,52 @@
 import { useEffect, useState } from "react"
 import { Card } from "./Card";
 import style from './ListCard.module.css';
+import { useStore } from "@nanostores/react";
+import { currentSearch } from "../../store";
 
 export const ListCards = () => {
   const [items, setItems] = useState<any[]>([]);
   const [encodeNextPage, setEncodeNextPage] = useState('');
+  const currentSearcher = useStore(currentSearch);
+  console.log({currentSearcher});
 
-  function fetchData(encodeNextPage: string) {
-    fetch('/api/search.json', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        encodeNextPage
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        if (data.error) {
-          console.log('ERROR:', data.message);
-        } else {
-          setItems((prevItems: any[]) => [...prevItems, ...data.data.items]);
-          setEncodeNextPage(data.data.encodeNextPage);
-        }
-      })
-      .catch(error => {
-        console.error(error);
+  const fetchData = async (encodeNextPage = '') => {
+    try {
+      const res = await fetch('/api/search.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...currentSearcher,
+          encodeNextPage
+        })
       });
+      const data = await res.json();
+      
+      console.log(data);
+      if (data.error) {
+        console.log('ERROR:', data.message);
+      } else {
+        const items = data?.data?.items || [];
+        console.log('Items:', items)
+        // TODO: refactor paginate with react-query
+        if(encodeNextPage) {
+          setItems((prevItems: any[]) => [...prevItems, ...items]);
+        }else {
+          setItems([...items]);
+        }
+        setEncodeNextPage(data?.data?.encodeNextPage);
+      }
+    }catch(error:any) {
+      console.log('ERROR:', error.message)
+    }
+      
   }
   useEffect(() => {
+    if(!currentSearcher?.city) return;
     fetchData('');
-  }, []);
+  }, [currentSearcher?.city]);
 
   return (
     <>

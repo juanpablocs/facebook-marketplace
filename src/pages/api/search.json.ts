@@ -6,11 +6,11 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
     const encodeNextPage = body.encodeNextPage;
     const config = {
-      latitude: -12.0611,
-      longitude: -77.0353,
-      radiusKm: 65,
-      city: "lima",
-      searchSlug: "acura",
+      latitude: body.latitude,
+      longitude: body.longitude,
+      radiusKm: body.radiusKM,
+      city: body.city,
+      searchSlug: "cars",
       itemCount: 10
     };
     try {
